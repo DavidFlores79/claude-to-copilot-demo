@@ -54,11 +54,8 @@ When analyzing or designing Flutter systems, you will follow Clean Architecture 
 ### Classic Bloc Implementation
 ```dart
 // presentation/bloc/user/user_event.dart
-abstract class UserEvent extends Equatable {
+abstract class UserEvent {
   const UserEvent();
-  
-  @override
-  List<Object?> get props => [];
 }
 
 class LoadUsersEvent extends UserEvent {
@@ -66,33 +63,24 @@ class LoadUsersEvent extends UserEvent {
 }
 
 class CreateUserEvent extends UserEvent {
-  final CreateUserRequest request;
+  CreateUserRequest? request;
   
-  const CreateUserEvent({required this.request});
-  
-  @override
-  List<Object?> get props => [request];
+  CreateUserEvent({this.request});
 }
 
 class UpdateUserEvent extends UserEvent {
-  final int userId;
-  final UpdateUserRequest request;
+  int? userId;
+  UpdateUserRequest? request;
   
-  const UpdateUserEvent({
-    required this.userId, 
-    required this.request,
+  UpdateUserEvent({
+    this.userId, 
+    this.request,
   });
-  
-  @override
-  List<Object?> get props => [userId, request];
 }
 
 // presentation/bloc/user/user_state.dart
-abstract class UserState extends Equatable {
+abstract class UserState {
   const UserState();
-  
-  @override
-  List<Object?> get props => [];
 }
 
 class UserInitial extends UserState {
@@ -104,21 +92,15 @@ class UserLoading extends UserState {
 }
 
 class UserLoaded extends UserState {
-  final List<User> users;
+  List<User>? users;
   
-  const UserLoaded({required this.users});
-  
-  @override
-  List<Object?> get props => [users];
+  UserLoaded({this.users});
 }
 
 class UserError extends UserState {
-  final String message;
+  String? message;
   
-  const UserError({required this.message});
-  
-  @override
-  List<Object?> get props => [message];
+  UserError({this.message});
 }
 
 // presentation/bloc/user/user_bloc.dart
@@ -175,64 +157,30 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 ### Domain Layer Implementation
 ```dart
 // domain/entities/user.dart
-class User extends Equatable {
-  final int id;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String? phone;
-  final bool isActive;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+class User {
+  String? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
 
-  const User({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
+  User({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
     this.phone,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  String get fullName => '$firstName $lastName';
+  String get fullName => '${firstName ?? ''} ${lastName ?? ''}';
   
-  String get displayName => fullName.isNotEmpty ? fullName : email;
-
-  User copyWith({
-    int? id,
-    String? firstName,
-    String? lastName,
-    String? email,
-    String? phone,
-    bool? isActive,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return User(
-      id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      isActive: isActive ?? this.isActive,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-        id,
-        firstName,
-        lastName,
-        email,
-        phone,
-        isActive,
-        createdAt,
-        updatedAt,
-      ];
+  String get displayName => fullName.trim().isNotEmpty ? fullName : email ?? '';
 }
 
 // domain/repositories/user_repository.dart
@@ -268,13 +216,10 @@ class CreateUserUseCase implements UseCase<User, CreateUserParams> {
   }
 }
 
-class CreateUserParams extends Equatable {
-  final CreateUserRequest request;
+class CreateUserParams {
+  CreateUserRequest? request;
 
-  const CreateUserParams({required this.request});
-
-  @override
-  List<Object?> get props => [request];
+  CreateUserParams({this.request});
 }
 ```
 
@@ -282,55 +227,38 @@ class CreateUserParams extends Equatable {
 ```dart
 // data/models/user_model.dart
 class UserModel extends User {
-  const UserModel({
-    required super.id,
-    required super.firstName,
-    required super.lastName,
-    required super.email,
+  UserModel({
+    super.id,
+    super.firstName,
+    super.lastName,
+    super.email,
     super.phone,
-    required super.isActive,
-    required super.createdAt,
-    required super.updatedAt,
+    super.isActive,
+    super.createdAt,
+    super.updatedAt,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id'] as int,
-      firstName: json['first_name'] as String,
-      lastName: json['last_name'] as String,
-      email: json['email'] as String,
-      phone: json['phone'] as String?,
-      isActive: json['is_active'] as bool,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-    );
-  }
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+    id: json["id"],
+    firstName: json["first_name"],
+    lastName: json["last_name"],
+    email: json["email"],
+    phone: json["phone"],
+    isActive: json["is_active"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+  );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'first_name': firstName,
-      'last_name': lastName,
-      'email': email,
-      'phone': phone,
-      'is_active': isActive,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-    };
-  }
-
-  factory UserModel.fromEntity(User user) {
-    return UserModel(
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone,
-      isActive: user.isActive,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    );
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "first_name": firstName,
+    "last_name": lastName,
+    "email": email,
+    "phone": phone,
+    "is_active": isActive,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+  };
 }
 
 // data/repositories/user_repository_impl.dart
