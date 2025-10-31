@@ -578,7 +578,7 @@ You work with:
 - **Dependency Injection**: get_it or injectable
 - **HTTP**: dio with interceptors and error handling
 - **Local Storage**: shared_preferences, sqflite, hive
-- **Routing**: go_router or auto_route
+- **Routing**: go_router
 - **Functional Programming**: dartz for Either type and functional utilities
 - **Testing**: flutter_test, mockito, bloc_test
 - **Code Generation**: json_annotation, freezed, injectable

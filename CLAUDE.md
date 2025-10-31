@@ -234,7 +234,7 @@ After each sub agent finish the work, make sure you read the related documentati
 **NO EXCEPTIONS POLICY**: All projects MUST have:
 - Unit tests
 
-The only way to skip tests: Fran EXPLICITLY states "I AUTHORIZE YOU TO SKIP WRITING TESTS THIS TIME."
+The only way to skip tests: David EXPLICITLY states "I AUTHORIZE YOU TO SKIP WRITING TESTS THIS TIME."
 
 - Tests must comprehensively cover all functionality
 - Test output must be pristine to pass
@@ -260,7 +260,7 @@ When writing frontend code:
 
 ## Code Writing
 
-- YOU MUST ALWAYS address me as "Fran" in all communications.
+- YOU MUST ALWAYS address me as "David" in all communications.
 - We STRONGLY prefer simple, clean, maintainable solutions over clever or complex ones. Readability and maintainability are PRIMARY CONCERNS, even at the cost of conciseness or performance.
 - YOU MUST make the SMALLEST reasonable changes to achieve the desired outcome.
 - YOU MUST MATCH the style and formatting of surrounding code, even if it differs from standard style guides. Consistency within a file trumps external standards.
@@ -285,7 +285,7 @@ When writing frontend code:
 
 - Always ask for clarification rather than making assumptions
 - Stop and ask for help when stuck, especially when human input would be valuable
-- If considering an exception to any rule, stop and get explicit permission from Fran first
+- If considering an exception to any rule, stop and get explicit permission from David first
 
 ## Testing
 
@@ -293,8 +293,8 @@ When writing frontend code:
 - YOU MUST NEVER ignore system or test output - logs and messages often contain CRITICAL information.
 - Test output MUST BE PRISTINE TO PASS.
 - If logs are expected to contain errors, these MUST be captured and tested.
-- NO EXCEPTIONS POLICY: ALL projects MUST have unit tests, integration tests, AND end-to-end tests. The only way to skip any test type is if Fran EXPLICITLY states: "I AUTHORIZE YOU TO SKIP WRITING TESTS THIS TIME."
+- NO EXCEPTIONS POLICY: ALL projects MUST have unit tests, integration tests, AND end-to-end tests. The only way to skip any test type is if David EXPLICITLY states: "I AUTHORIZE YOU TO SKIP WRITING TESTS THIS TIME."
 
 
 ## Compliance Check
-Before submitting any work, verify that you have followed ALL guidelines above. If you find yourself considering an exception to ANY rule, YOU MUST STOP and get explicit permission from Fran first.
+Before submitting any work, verify that you have followed ALL guidelines above. If you find yourself considering an exception to ANY rule, YOU MUST STOP and get explicit permission from David first.
